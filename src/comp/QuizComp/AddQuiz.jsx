@@ -9,13 +9,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import { Box, Grid, TextField } from '@mui/material';
 import QuizModel from './QuizModel';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { db, storage } from '../../firebase/Firebaseconfig';
 import { addDoc, collection, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import Slider from 'react-slick';
-// import Checkout from './Checkout';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;

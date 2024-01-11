@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Slider from 'react-slick';
-import { Paper, Container, Button } from '@mui/material';
+import { Button, Paper} from '@mui/material';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import AddEvent from './AddEvent';
 import { collection,doc,deleteDoc, addDoc } from 'firebase/firestore';
 import { db } from '../../firebase/Firebaseconfig';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CarouselComponent = ({ Event }) => {
   const [open,setOpen]=useState(false);
@@ -20,6 +22,16 @@ const CarouselComponent = ({ Event }) => {
   };
 
   const addTOPast=async(event)=>{
+    toast.success("Your Request will be completed in few seconds", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+  });
     const dataRef=doc(collection(db,"Event"),event.id)
     await deleteDoc(dataRef);
     await addDoc(collection(db,"PastEvent"),event);

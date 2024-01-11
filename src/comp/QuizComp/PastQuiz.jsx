@@ -7,9 +7,6 @@ import TableRow from '@mui/material/TableRow';
 import Title from '../components/Title';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase/Firebaseconfig';
-// import AddEvent from '../components/AddEvent';
-// import TransitionsModal from '../components/Model';
-import { Button } from '@mui/material';
 import AddQuiz from './AddQuiz';
 
 
@@ -17,7 +14,6 @@ export default function PastQuiz() {
   const [Quiz, SetEvents] = React.useState([])
   const [Data,SetData]=React.useState(null)
   const [open,setOpen]=React.useState(false)
-  const [editopen,setEditOpen]=React.useState(false)
   React.useEffect(() => {
     (async () => {
       const data = await getDocs(collection(db, "PastQuiz"));

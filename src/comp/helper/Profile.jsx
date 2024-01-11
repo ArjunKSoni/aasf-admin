@@ -1,12 +1,8 @@
 import * as React from 'react';
-import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Title from '../components/Title';
 import { useSelector } from 'react-redux';
 
-function preventDefault(event) {
-  event.preventDefault();
-}
 
 export default function Profile() {
     const Email = useSelector((state) => state.Token.Email);

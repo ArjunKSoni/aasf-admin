@@ -4,7 +4,7 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import { Button } from '@mui/material';
 import AddEvent from '../components/AddEvent';
 import { db } from '../../firebase/Firebaseconfig';
-import { getDocs, doc, collection } from 'firebase/firestore';
+import { getDocs, collection } from 'firebase/firestore';
 import CarouselComponent from '../components/Slider';
 
 
