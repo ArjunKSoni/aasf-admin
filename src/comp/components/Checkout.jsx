@@ -49,7 +49,7 @@ function getStepContent(step, EventName, setEventName, Mode, setMode, Venue, set
     }
 }
 
-export default function Checkout({ mode, data setOpen }) {
+export default function Checkout({ mode, data, setOpen }) {
     const [EventName, setEventName] = React.useState("");
     const [Mode, setMode] = React.useState("");
     const [Venue, setVenue] = React.useState("");
@@ -84,6 +84,7 @@ export default function Checkout({ mode, data setOpen }) {
                     progress: undefined,
                     theme: "light",
                 });
+                setActiveStep(activeStep - 1);
             }
             else if (Desc === "") {
                 toast.error("Add Event Desc", {
@@ -96,6 +97,7 @@ export default function Checkout({ mode, data setOpen }) {
                     progress: undefined,
                     theme: "light",
                 });
+                setActiveStep(activeStep - 1);
 
             } else if (date === "") {
                 toast.error("Add Event Date", {
@@ -108,7 +110,7 @@ export default function Checkout({ mode, data setOpen }) {
                     progress: undefined,
                     theme: "light",
                 });
-
+                setActiveStep(activeStep - 1);
             } else if (Venue === "") {
                 toast.error("Add Event Venue", {
                     position: "top-right",
@@ -120,9 +122,10 @@ export default function Checkout({ mode, data setOpen }) {
                     progress: undefined,
                     theme: "light",
                 });
-
+                setActiveStep(activeStep - 1);
             }
             else {
+                setOpen(false)
                 toast.success("Your Request will be completed in few seconds", {
                     position: "top-right",
                     autoClose: 5000,

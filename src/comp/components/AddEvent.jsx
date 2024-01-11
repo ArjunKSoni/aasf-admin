@@ -49,7 +49,7 @@ export default function AddEvent({ open, setOpen ,mode,data}) {
                 </AppBar>
                 <div className='flex-1 flex items-center flex-col'>
                     <div className='flex-col w-screen sm:w-3/6 flex gap-4 items-center p-7'>
-                        <Checkout mode={mode} data={data}/>
+                        <Checkout mode={mode} setOpen={setOpen} data={data}/>
                     </div>
                 </div>
             </Dialog>
