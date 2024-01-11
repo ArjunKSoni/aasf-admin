@@ -30,7 +30,7 @@ return(
       </ListItemIcon>
       <ListItemText primary="Home" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton onClick={()=>navigate(`/quiz/${uid}`)}>
       <ListItemIcon>
       <BarChartIcon />
       </ListItemIcon>

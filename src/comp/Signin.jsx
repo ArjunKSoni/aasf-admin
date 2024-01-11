@@ -39,6 +39,10 @@ export default function SignIn() {
     const [Memberdat, setMemberData] = React.useState([]);
 
     React.useEffect(() => {
+        const uid=Cookies.get('uid')
+        if(uid){
+            navigate(`/home/${uid}`)
+        }
         (async () => {
             const dataRef = await getDocs(collection(db, "Members"));
             const Members = dataRef.docs.map((doc) => ({
@@ -69,6 +73,7 @@ export default function SignIn() {
             dispatch(addEmail(result.user.email));
             dispatch(addName(result.user.displayName));
             dispatch(addPhotoURL(result.user.photoURL));
+            window.location.reload()
             navigate(`/home/${result.user.uid}`);
             //     return;
             // }

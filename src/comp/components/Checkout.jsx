@@ -14,8 +14,8 @@ import Typography from '@mui/material/Typography';
 import EventDesc from './EventDesc';
 import ImageUpload from './ImageUpload';
 import { db, storage } from '../../firebase/Firebaseconfig';
-import { addDoc,collection, updateDoc,doc} from 'firebase/firestore';
-import { ref,uploadBytes,getDownloadURL } from 'firebase/storage';
+import { addDoc, collection, updateDoc, doc } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -36,12 +36,12 @@ function Copyright() {
 
 const steps = ['Event Description', 'Image Upload'];
 
-function getStepContent(step,EventName, setEventName,Mode, setMode,Venue, setVenue,Desc, setDesc,date, setDate,images,setImages) {
+function getStepContent(step, EventName, setEventName, Mode, setMode, Venue, setVenue, Desc, setDesc, date, setDate, images, setImages) {
     switch (step) {
         case 0:
-            return <EventDesc EventName={EventName} setEventName={setEventName} Mode={Mode} setMode={setMode} Venue={Venue} setVenue={setVenue} Desc={Desc} setDesc={setDesc} Date={date} setDate={setDate}/>;
+            return <EventDesc EventName={EventName} setEventName={setEventName} Mode={Mode} setMode={setMode} Venue={Venue} setVenue={setVenue} Desc={Desc} setDesc={setDesc} Date={date} setDate={setDate} />;
         case 1:
-            return <ImageUpload images={images} setImages={setImages}/>;
+            return <ImageUpload images={images} setImages={setImages} />;
         // case 2:
         //     return <Review />;
         default:
@@ -49,18 +49,18 @@ function getStepContent(step,EventName, setEventName,Mode, setMode,Venue, setVen
     }
 }
 
-export default function Checkout({mode,data}) {
+export default function Checkout({ mode, data setOpen }) {
     const [EventName, setEventName] = React.useState("");
     const [Mode, setMode] = React.useState("");
     const [Venue, setVenue] = React.useState("");
     const [Desc, setDesc] = React.useState("");
     const [date, setDate] = React.useState("Upcoming");
-    const [images,setImages]=React.useState([]);
+    const [images, setImages] = React.useState([]);
     const [activeStep, setActiveStep] = React.useState(0);
-    let Image=[];
+    let Image = [];
 
     React.useEffect(() => {
-        if(data!=null){
+        if (data != null) {
             setEventName(data.EventName);
             setMode(data.Mode)
             setVenue(data.Venue)
@@ -69,54 +69,144 @@ export default function Checkout({mode,data}) {
         }
     }, [])
 
-    const handleNext = async() => {
+    const handleNext = async () => {
         setActiveStep(activeStep + 1);
-        if(activeStep===1){
-            for(let i=0;i<images.length;i++){
-                const imgref=ref(storage,`/image/${Date.now()}`)
-                await uploadBytes(imgref,images[i]);
-                let url=await getDownloadURL(imgref)
-                Image[i]=url
+        if (activeStep === 1) {
+
+            if (EventName === "") {
+                toast.error("Add Event Name", {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
+            else if (Desc === "") {
+                toast.error("Add Event Desc", {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+
+            } else if (date === "") {
+                toast.error("Add Event Date", {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+
+            } else if (Venue === "") {
+                toast.error("Add Event Venue", {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
 
             }
-            if(Image){
-                const Event={
-                    EventName,
-                    Mode,
-                    Venue,
-                    Desc,
-                    date,
-                    Image
+            else {
+                toast.success("Your Request will be completed in few seconds", {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+
+                for (let i = 0; i < images.length; i++) {
+                    const imgref = ref(storage, `/image/${Date.now()}`)
+                    await uploadBytes(imgref, images[i]);
+                    let url = await getDownloadURL(imgref)
+                    Image[i] = url
+
                 }
-                if(mode==="Update Event"){
-                    Event.Image=Image;
-                    updateDoc(doc(collection(db,"Event"),data.id),Event).then((e)=>{
-                        alert("Event Updated Successfully");
-                        window.location.reload();
-                    }).catch((error)=>{
-                        console.log(error);
-                    });
-            
-                }
-                else if(mode==="Edit Past Event"){
-                    Event.Image=Image;
-                    updateDoc(doc(collection(db,"PastEvent"),data.id),Event).then((e)=>{
-                        alert("Event Updated Successfully");
-                        window.location.reload();
-                    }).catch((error)=>{
-                        console.log(error);
-                    });
-                }
-                else{
-                    addDoc(collection(db,"Event"),Event).then((e)=>{
-                        alert("Event Added Successfully");
-                        window.location.reload();
-                    }).catch((error)=>{
-                        console.log(error);
-                    });
+                if (Image) {
+                    const Event = {
+                        EventName,
+                        Mode,
+                        Venue,
+                        Desc,
+                        date,
+                        Image
+                    }
+                    if (mode === "Update Event") {
+                        Event.Image = Image;
+                        updateDoc(doc(collection(db, "Event"), data.id), Event).then((e) => {
+                            toast.success("Event Updated Successfully", {
+                                position: "top-right",
+                                autoClose: 5000,
+                                hideProgressBar: false,
+                                closeOnClick: true,
+                                pauseOnHover: true,
+                                draggable: true,
+                                progress: undefined,
+                                theme: "light",
+                            });
+                            window.location.reload();
+                        }).catch((error) => {
+                            console.log(error);
+                        });
+
+                    }
+                    else if (mode === "Edit Past Event") {
+                        Event.Image = Image;
+                        updateDoc(doc(collection(db, "PastEvent"), data.id), Event).then((e) => {
+                            toast.success("Event Updated Successfully", {
+                                position: "top-right",
+                                autoClose: 5000,
+                                hideProgressBar: false,
+                                closeOnClick: true,
+                                pauseOnHover: true,
+                                draggable: true,
+                                progress: undefined,
+                                theme: "light",
+                            });
+                            window.location.reload();
+                        }).catch((error) => {
+                            console.log(error);
+                        });
+                    }
+                    else {
+                        addDoc(collection(db, "Event"), Event).then((e) => {
+                            toast.success("Event added successfully", {
+                                position: "top-right",
+                                autoClose: 5000,
+                                hideProgressBar: false,
+                                closeOnClick: true,
+                                pauseOnHover: true,
+                                draggable: true,
+                                progress: undefined,
+                                theme: "light",
+                            });
+                            window.location.reload();
+                        }).catch((error) => {
+                            console.log(error);
+                        });
+                    }
                 }
             }
-            
+
         }
     };
     const handleBack = () => {
@@ -164,7 +254,7 @@ export default function Checkout({mode,data}) {
                         </React.Fragment>
                     ) : (
                         <React.Fragment>
-                            {getStepContent(activeStep,EventName, setEventName,Mode, setMode,Venue, setVenue,Desc, setDesc,date, setDate,images,setImages)}
+                            {getStepContent(activeStep, EventName, setEventName, Mode, setMode, Venue, setVenue, Desc, setDesc, date, setDate, images, setImages)}
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                                 {activeStep !== 0 && (
                                     <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>

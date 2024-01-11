@@ -20,10 +20,8 @@ import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { MainListItems, SecondaryListItems } from './helper/listitem';
-import PastEvents from './helper/PastEvents';
-import Profile from './helper/Profile';
-import Events from './helper/Events';
-import Cookies from 'js-cookie';
+import PastQuiz from './QuizComp/PastQuiz';
+import PresentQuiz from './QuizComp/PresentQuiz';
 
 function Copyright(props) {
     return (
@@ -86,20 +84,19 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const defaultTheme = createTheme();
 
-export default function Home() {
+export default function Quiz() {
     const [open, setOpen] = React.useState(false);
     const toggleDrawer = () => {
         setOpen(!open);
     };
 
     const navigate = useNavigate();
-    // const Uid = useSelector((state) => state.Token.Uid);
+    const Uid = useSelector((state) => state.Token.Uid);
 
 
 
 
     useEffect(() => {
-        const Uid=Cookies.get('uid');
         if (!Uid) {
             navigate("/")
         }
@@ -135,7 +132,7 @@ export default function Home() {
                             noWrap
                             sx={{ flexGrow: 1 }}
                         >
-                            Admin Panal
+                            Quizzes
                         </Typography>
                     </Toolbar>
                 </AppBar>
@@ -176,20 +173,22 @@ export default function Home() {
                     <Toolbar />
                     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
                         <Grid container spacing={3}>
-                            {/* Profile */}
+                            {/* Quiz */}
                             <Grid item xs={12} md={4} lg={3}>
                                 <Paper
                                     sx={{
                                         p: 2,
                                         display: 'flex',
+                                        alignItems:'center',
+                                        justifyContent:'center',
                                         flexDirection: 'column',
                                         height: 240,
                                     }}
                                 >
-                                    <Profile />
+                                <img src="https://firebasestorage.googleapis.com/v0/b/aasf-c8e7f.appspot.com/o/image%2Fquiz.png?alt=media&token=4dfcabd3-d844-4c6b-93d5-49c07b591012"  alt="" srcSet="" />
                                 </Paper>
                             </Grid>
-                            {/* Events */}
+                            {/* Live Quiz */}
                             <Grid item xs={12} md={8} lg={9}>
                                 <Paper
                                     sx={{
@@ -199,16 +198,17 @@ export default function Home() {
                                         height: 240,
                                     }}
                                 >
-                                    <Events />
+                                    <PresentQuiz />
                                 </Paper>
                             </Grid>
 
-                            {/* Past Events */}
+                            {/* Past Quiz */}
                             <Grid item xs={12}>
                                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                                    <PastEvents />
+                                    <PastQuiz />
                                 </Paper>
                             </Grid>
+
                             <div className='flex items-center justify-center w-full'>
                                 <Copyright sx={{ pt: 4 }} />
                             </div>

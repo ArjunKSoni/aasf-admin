@@ -33,7 +33,7 @@ const CarouselComponent = ({ Event }) => {
           return (
             <Paper key={i}>
               <AddEvent open={open} setOpen={setOpen} mode={"Update Event"} data={data}/>
-              <div className='flex items-start justify-between'>
+              <div className='flex items-start flex-wrap-reverse justify-between'>
                 <div className='items-center'>
                   <h1 className='text-xl font-bold'>{event.EventName}</h1>
                   <div className='flex gap-5 justify-around'>

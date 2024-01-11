@@ -13,6 +13,16 @@
   }
 }
 
+.smalldevicehide{
+  display: block;
+}
+
+@media only screen and (max-width: 600px) {
+  .smalldevicehide {
+    display: hidden;
+  }
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
