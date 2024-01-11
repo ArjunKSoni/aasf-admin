@@ -39,7 +39,7 @@ export default function TransitionsModal({ open, setOpen, data }) {
             >
                 <Fade in={open}>
                     <Box sx={style}>
-                        {data && <MediaCard data={data} />}
+                        {data && <MediaCard data={data} setOpen={setOpen} />}
                     </Box>
                 </Fade>
             </Modal>

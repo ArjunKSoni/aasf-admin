@@ -99,19 +99,7 @@ export default function Checkout({ mode, data, setOpen }) {
                 });
                 setActiveStep(activeStep - 1);
 
-            } else if (date === "") {
-                toast.error("Add Event Date", {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                });
-                setActiveStep(activeStep - 1);
-            } else if (Venue === "") {
+            }else if (Venue === "") {
                 toast.error("Add Event Venue", {
                     position: "top-right",
                     autoClose: 5000,

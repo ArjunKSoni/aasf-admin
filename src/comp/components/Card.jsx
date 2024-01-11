@@ -10,8 +10,10 @@ import { db } from '../../firebase/Firebaseconfig';
 import { collection, deleteDoc, doc } from 'firebase/firestore';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { TextField } from '@mui/material';
 
-export default function MediaCard({ data }) {
+export default function MediaCard({ data,setOpen }) {
+    const [Delete, setDelete] = React.useState("")
     const settings = {
         dots: true,
         infinite: true,
@@ -20,20 +22,34 @@ export default function MediaCard({ data }) {
         slidesToScroll: 1,
         autoplay: true,
     };
-    const DeletePastEvent = async (event) => {
-        const dataRef = doc(collection(db, "PastEvent"), data.id)
-        await deleteDoc(dataRef);
-        toast.success("Past Event Deleted Successfully", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-        });
-        window.location.reload();
+    const DeletePastEvent = async () => {
+        if (Delete === data.EventName) {
+            setOpen(false)
+            const dataRef = doc(collection(db, "PastEvent"), data.id)
+            await deleteDoc(dataRef);
+            toast.success("Event Deleted Successfully", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            window.location.reload();
+        } else {
+            toast.error("Type Event Name to delete Event", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
     }
     return (
         <div className='flex-1'>
@@ -61,7 +77,16 @@ export default function MediaCard({ data }) {
                 <h1>{data.date}</h1>
                 <h1>{data.Venue}</h1>
             </CardActions>
-            <div className='flex items-center justify-center'>
+            <TextField
+                sx={{ marginTop: 4 }}
+                required
+                value={Delete}
+                onChange={e => setDelete(e.target.value)}
+                label="Type Event Name to delete Event"
+                fullWidth
+                variant="outlined"
+            />
+            <div className='flex mt-2 items-center justify-center'>
                 <Button onClick={DeletePastEvent} variant="contained" color='error'>Delete</Button>
             </div>
 
