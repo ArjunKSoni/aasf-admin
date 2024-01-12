@@ -13,7 +13,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default function PresentQuiz() {
   const settings = {
-    dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
@@ -68,12 +67,12 @@ export default function PresentQuiz() {
       {Quiz[0] &&
         <div className='flex h-full w-full items-start'>
           <div className='flex flex-col w-1/2 items-start justify-center'>
-            <h1 className='text-2xl  font-bold'>{Quiz[0].QuizName}</h1>
-            <div className='flex items-center gap-10'>
-              <h1>{Quiz[0].Date}</h1>
+            <h1 className='text-2xl text-center font-bold'>{Quiz[0].QuizName}</h1>
+            <div className='flex w-full items-center gap-10'>
+              <h1 className='text-center'>{Quiz[0].Date}</h1>
               <h1>{Quiz[0].Price} Rs</h1>
             </div>
-            <div className='flex gap-3 flex-col'>
+            <div className='flex gap-3 w-full flex-col'>
               <Button onClick={() => { setMode("Edit Quiz"); setData(Quiz[0]); setOpen(true) }} variant="contained" color="success">
                 Edit
               </Button>
@@ -82,11 +81,11 @@ export default function PresentQuiz() {
               </Button>
             </div>
           </div>
-          <div className='flex w-1/2 h-full items-center justify-center'>
+          <div className='w-1/2 pl-7 py-3'>
             <Slider {...settings}>
               {Quiz[0].Image.length > 0 ? Quiz[0].Image.map((e, i) => {
                 return (
-                  <div key={i}>
+                  <div key={i} className='flex items-center justify-center'>
                     <img src={e} width={150} height={150} alt="" srcSet="" />
                   </div>
                 )

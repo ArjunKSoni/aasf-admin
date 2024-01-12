@@ -13,6 +13,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import { db } from '../firebase/Firebaseconfig';
 import { getDocs, collection } from 'firebase/firestore';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import AddMemberModel from './helper/AddMemberModel';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -20,6 +22,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function MembersList({ open, setOpen }) {
     const [Memberdata, setMemberData] = React.useState([]);
+    const [add,setAdd]=React.useState(false)
+    const [mode,setMode]=React.useState("Add")
+    const [data,setData]=React.useState(null)
 
     React.useEffect(() => {
         (async () => {
@@ -30,12 +35,11 @@ export default function MembersList({ open, setOpen }) {
             }))
             setMemberData(Members);
         })()
-    }, [])
+    }, [data])
 
     const handleClose = () => {
         setOpen(false);
     };
-
     return (
         <React.Fragment>
             <Dialog
@@ -65,20 +69,21 @@ export default function MembersList({ open, setOpen }) {
                     <ListItem>
                         <div className='flex flex-wrap w-full items-center justify-around'>
                             <h1 className='text-xl flex-1 text-center font-bold'>Name</h1>
-                            <h1 className='text-xl flex-1 text-center font-bold'>Email</h1>
-                            <h1 className='text-xl flex-1 text-center font-bold'>Mobile number</h1>
+                            <h1 className='text-xl hidden sm:block flex-1 text-center font-bold'>Email</h1>
+                            <h1 className='text-xl hidden sm:block flex-1 text-center font-bold'>Mobile number</h1>
                             <h1 className='text-xl flex-1 text-center font-bold'>Position</h1>
                         </div>
                     </ListItem>
                     <Divider />
+                    
                     {Memberdata.map((e,i) => {
                         return (
-                            <div key={i}>
+                            <div key={i} className='hover:bg-slate-200 hover:cursor-pointer' onClick={()=>{setMode("Update");setData(e);setAdd(true)}}>
                                 <ListItem>
                                     <div className='flex flex-wrap w-full items-center justify-around'>
                                         <h1 className='text-lg text-gray-500 flex-1 text-center font-bold'>{e.Name}</h1>
-                                        <h1 className='text-lg text-gray-500 flex-1 text-center font-bold'>{e.Email}</h1>
-                                        <h1 className='text-lg text-gray-500 flex-1 text-center font-bold'>{e.Mobile}</h1>
+                                        <h1 className='text-lg hidden sm:block text-gray-500 flex-1 text-center font-bold'>{e.Email}</h1>
+                                        <h1 className='text-lg hidden sm:block text-gray-500 flex-1 text-center font-bold'>{e.Mobile}</h1>
                                         <h1 className='text-lg text-gray-500 flex-1 text-center font-bold'>{e.Position}</h1>
                                     </div>
                                 </ListItem>
@@ -88,7 +93,8 @@ export default function MembersList({ open, setOpen }) {
                     })}
 
                 </List>
-
+                <AddMemberModel open={add} setOpen={setAdd} data={data} mode={mode} />
+                <div onClick={()=>{setData(null);setMode("Add");setAdd(true);}} className='rounded-full hover:cursor-pointer z-50 absolute bottom-12 right-12 bg-green-500 flex items-center justify-center' style={{width:80,height:80}}><PersonAddIcon className='text-white font-bold text-xl' /></div>
             </Dialog>
         </React.Fragment>
     );

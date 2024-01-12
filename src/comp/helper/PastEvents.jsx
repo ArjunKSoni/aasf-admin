@@ -37,7 +37,7 @@ export default function PastEvents() {
           <TableRow>
             <TableCell>Date</TableCell>
             <TableCell>Name</TableCell>
-            <TableCell className='smalldevicehide'>Description</TableCell>
+            <TableCell><div className='hidden sm:table-cell'>Description</div></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -45,7 +45,7 @@ export default function PastEvents() {
             <TableRow className=' hover:cursor-pointer hover:bg-slate-200' key={event.id}>
               <TableCell onClick={()=>{SetData(event);setOpen(true)}} >{event.date}</TableCell>
               <TableCell onClick={()=>{SetData(event);setOpen(true)}}>{event.EventName}</TableCell>
-              <TableCell className='smalldevicehide' onClick={()=>{SetData(event);setOpen(true)}}>{event.Desc}</TableCell>
+              <TableCell><div className='hidden sm:table-cell' onClick={()=>{SetData(event);setOpen(true)}}>{event.Desc}</div></TableCell>
               <TableCell onClick={()=>{SetData(event); setEditOpen(true)}}><Button variant="text">Edit</Button></TableCell>
             </TableRow>
           ))}
