@@ -39,8 +39,8 @@ export default function SignIn() {
     const [Memberdat, setMemberData] = React.useState([]);
 
     React.useEffect(() => {
-        const uid=Cookies.get('uid')
-        if(uid){
+        const uid = Cookies.get('uid')
+        if (uid) {
             navigate(`/home/${uid}`)
         }
         (async () => {
@@ -60,25 +60,34 @@ export default function SignIn() {
     const handleSubmit = (event) => {
         event.preventDefault();
         signInWithPopup(auth, provider).then((result) => {
-            // for (let i = 0; i < Memberdat.length; i++) {
-            //     if (Memberdat[i].Email === result.user.email) {
-            Cookies.set('Token', result.user.accessToken, { expires: 7 });
-            Cookies.set('uid', result.user.uid, { expires: 7 });
-            Cookies.set('email', result.user.email, { expires: 7 });
-            Cookies.set('photoURL', result.user.photoURL, { expires: 7 });
-            Cookies.set('Name', result.user.displayName, { expires: 7 });
+            for (let i = 0; i < Memberdat.length; i++) {
+                if (Memberdat[i].Email === result.user.email) {
+                    Cookies.set('Token', result.user.accessToken, { expires: 7 });
+                    Cookies.set('uid', result.user.uid, { expires: 7 });
+                    Cookies.set('email', result.user.email, { expires: 7 });
+                    Cookies.set('photoURL', result.user.photoURL, { expires: 7 });
+                    Cookies.set('Name', result.user.displayName, { expires: 7 });
 
-            dispatch(add(result.user.accessToken));
-            dispatch(addUID(result.user.uid));
-            dispatch(addEmail(result.user.email));
-            dispatch(addName(result.user.displayName));
-            dispatch(addPhotoURL(result.user.photoURL));
-            window.location.reload()
-            navigate(`/home/${result.user.uid}`);
-            //     return;
-            // }
-            // }
-            // alert("Authentication Failed");
+                    dispatch(add(result.user.accessToken));
+                    dispatch(addUID(result.user.uid));
+                    dispatch(addEmail(result.user.email));
+                    dispatch(addName(result.user.displayName));
+                    dispatch(addPhotoURL(result.user.photoURL));
+                    window.location.reload()
+                    navigate(`/home/${result.user.uid}`);
+                    return;
+                }
+            }
+            toast.error("Authentication Failed", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
 
         }).catch(error => {
             toast.success("Something went wrong", {

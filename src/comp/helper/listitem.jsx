@@ -45,7 +45,7 @@ return(
       <ListItemIcon>
         <LayersIcon />
       </ListItemIcon>
-      <ListItemText primary="Album" />
+      <ListItemText primary="Participants" />
     </ListItemButton>
   </React.Fragment>
 )};

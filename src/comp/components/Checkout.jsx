@@ -64,7 +64,7 @@ export default function Checkout({ mode, data, setOpen }) {
             setDesc(data.Desc)
             setDate(data.date)
         }
-    }, [])
+    }, [data])
 
     const handleNext = async () => {
         setActiveStep(activeStep + 1);
